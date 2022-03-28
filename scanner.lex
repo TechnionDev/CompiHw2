@@ -30,10 +30,6 @@ whitespace  ([\t\n\r ])
 (while)                             return WHILE;
 (break)                             return BREAK;
 (continue)                          return CONTINUE;
-(switch)                            return SWITCH;
-(case)                              return CASE;
-(default)                           return DEFAULT;
-(\:)                                return COLON;
 (\;)                                return SC;
 (\,)                                return COMMA;
 (\()                                return LPAREN;
