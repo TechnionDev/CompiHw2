@@ -13,7 +13,7 @@ letter          ([a-zA-Z])
 whitespace      ([\t\n\r ])
 xdd             (\\x[0-9A-Fa-f]{2})
 escapechars     (\\[\\"nrt0])
-printableascii  ([\x20-\x7E])
+printableascii  ([\x20-\x21\x23-\x5B\x5D-\x7E])
 
 
 %%
