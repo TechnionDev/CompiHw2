@@ -28,3 +28,8 @@ zip: scanner.lex hw1.cpp
 test: hw1.out
 	./hw1.out < tests/t1.in > tests/t1.out
 	./hw1.out < tests/t2.in > tests/t2.out
+	./hw1.out < tests/t3.in > tests/t3.out
+	./hw1.out < tests/t4.in > tests/t4.out
+	./hw1.out < tests/t5.in > tests/t5.out
+	./hw1.out < tests/t6.in > tests/t6.out
+	./hw1.out < tests/t7.in > tests/t7.out

@@ -6,9 +6,6 @@ using std::string;
 using std::cout;
 using std::endl;
 
-extern int is_str_unclosed;
-extern int is_str_undefined_escape;
-extern int is_str_invalid_hex;
 extern char current_str[1025];
 
 const char *token_type_string[] = {
@@ -87,18 +84,5 @@ void print_comment_token() {
 }
 
 void print_string_token() {
-    bool did_fail = is_str_unclosed || is_str_undefined_escape || is_str_invalid_hex;
-
-    if (is_str_unclosed) {
-        cout << "Error unclosed string" << endl;
-    } else if (is_str_undefined_escape || is_str_invalid_hex) {
-        cout << "Error undefined escape sequence" << yytext[1] << endl;
-    }
-
-    if (did_fail) {
-        exit(0);
-    }
-
-    printf(current_str); // will it work? maybe we need to concat in scanner.lex
-    cout << endl;
+    cout << current_str << endl;
 }
