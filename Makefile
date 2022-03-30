@@ -20,16 +20,16 @@ lex.yy.c: scanner.lex
 	flex scanner.lex
 
 clean:
-	rm -f ${OBJS} ${EXEC} lex.yy.c tokens.hpp
+	rm -f ${OBJS} ${EXEC} lex.yy.c tokens.hpp tests/*.res
 
 zip: scanner.lex hw1.cpp
 	zip ${ZIP_NAME} scanner.lex tokens.hpp hw1.cpp
 
 test: hw1.out
-	./hw1.out < tests/t1.in > tests/t1.out
-	./hw1.out < tests/t2.in > tests/t2.out
-	./hw1.out < tests/t3.in > tests/t3.out
-	./hw1.out < tests/t4.in > tests/t4.out
-	./hw1.out < tests/t5.in > tests/t5.out
-	./hw1.out < tests/t6.in > tests/t6.out
-	./hw1.out < tests/t7.in > tests/t7.out
+	./hw1.out < tests/t1.in > tests/t1.res
+	./hw1.out < tests/t2.in > tests/t2.res
+	./hw1.out < tests/t3.in > tests/t3.res
+	./hw1.out < tests/t4.in > tests/t4.res
+	./hw1.out < tests/t5.in > tests/t5.res
+	./hw1.out < tests/t6.in > tests/t6.res
+	./hw1.out < tests/t7.in > tests/t7.res
