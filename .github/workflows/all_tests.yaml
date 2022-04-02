@@ -1,0 +1,36 @@
+name: Run All Tests
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install flex
+      - name: Run flex
+        run: flex scanner.lex
+      - name: Compile thingies
+        run: g++ -std=c++17 lex.yy.c hw1.cpp -o hw1.out
+      - name: Run test T1
+        run: ./hw1.out < hw1-tests/t1.in >& hw1-tests/t1.actual_out && diff hw1-tests/t1.out hw1-tests/t1.actual_out
+      - name: Run test T2
+        run: ./hw1.out < hw1-tests/t2.in >& hw1-tests/t2.actual_out && diff hw1-tests/t2.out hw1-tests/t2.actual_out
+      - name: Run test T3
+        run: ./hw1.out < hw1-tests/t3.in >& hw1-tests/t3.actual_out && diff hw1-tests/t3.out hw1-tests/t3.actual_out
+      - name: Run test T4
+        run: ./hw1.out < hw1-tests/t4.in >& hw1-tests/t4.actual_out && diff hw1-tests/t4.out hw1-tests/t4.actual_out
+      - name: Run test T5
+        run: ./hw1.out < hw1-tests/t5.in >& hw1-tests/t5.actual_out && diff hw1-tests/t5.out hw1-tests/t5.actual_out
+      - name: Run test T6
+        run: ./hw1.out < hw1-tests/t6.in >& hw1-tests/t6.actual_out && diff hw1-tests/t6.out hw1-tests/t6.actual_out
+      - name: Run test T7
+        run: ./hw1.out < hw1-tests/t7.in >& hw1-tests/t7.actual_out && diff hw1-tests/t7.out hw1-tests/t7.actual_out
