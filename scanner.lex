@@ -88,10 +88,10 @@ printableascii  ([\x20-\x21\x23-\x5B\x5D-\x7E])
 <IN_STRING>{xdd}                    {
                                         char *ptr;
                                         char current_xdd[3] = {yytext[2], yytext[3], '\0'};
-                                        char current_hex;
-                                        current_hex = (char) strtol(current_xdd, &ptr, 16);
+                                        int current_hex;
+                                        current_hex = strtol(current_xdd, &ptr, 16);
                                         if (current_hex >= 0x00 && current_hex <= 0x7F) {
-                                            current_str[current_str_length++] = current_hex;
+                                            current_str[current_str_length++] = (char) current_hex;
                                         } else {
                                             error_undefined_hex_escape(current_xdd[0], current_xdd[1]);
                                         }
@@ -129,11 +129,6 @@ void error_undefined_hex_escape(char non_hex1, char non_hex2) {
     } else {
         printf("Error undefined escape sequence x\n");
     }
-    exit(0);
-}
-
-void error_undefined_hex_escape_single(char non_hex) {
-    printf("Error undefined escape sequence x%c\n", non_hex);
     exit(0);
 }
 
