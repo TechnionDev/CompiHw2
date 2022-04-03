@@ -22,7 +22,7 @@ lex.yy.c: scanner.lex
 	flex --outfile=lex.yy.c scanner.lex
 
 clean:
-	rm -f ${OBJS} ${EXEC} lex.yy.c hw1-tests/*.res *.res hw1-tests/outsourced/*.res hw1.out
+	rm -f ${OBJS} ${EXEC} lex.yy.c hw1-tests/*.res *.res hw1-tests/outsourced/*.res hw1.out *.o
 
 zip: scanner.lex hw1.cpp tokens.hpp
 	zip ${ZIP_NAME} scanner.lex tokens.hpp hw1.cpp
