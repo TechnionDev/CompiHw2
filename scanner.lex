@@ -57,7 +57,8 @@ printableascii  ([\x20-\x21\x23-\x5B\x5D-\x7E])
 ((\+)|(\-)|(\*)|(\/))               return BINOP;
 (\/\/[^\n\r]*)                      return COMMENT;
 ({letter}({letter}|{digit})*)       return ID;
-((0[^0-9])|{nozerodigit}{digit}*)   return NUM;
+(0{digit}+)                         error_unprintable_char(*yytext);
+(0|{nozerodigit}{digit}*)           NUM;
 \"                                  BEGIN(IN_STRING);
 <IN_STRING>[\n\r]                   error_unclosed_string();
 <IN_STRING>\\[^x\\"nrt0]            error_undefined_escape(yytext[1]);
