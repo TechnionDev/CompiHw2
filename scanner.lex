@@ -1,7 +1,7 @@
 %{
     #include <stdlib.h>
     #include <stdio.h>
-    #include "tokens.hpp"
+    #include "parser.tab.hpp"
 
     char current_str[1025];
     int current_str_length = 0;

@@ -8,6 +8,7 @@ namespace output {
     void printProductionRule(const int ruleno);
     void errorLex(const int lineno);
     void errorSyn(const int lineno);
+    int yyerror(const char* s);
 };
 
 #endif
