@@ -45,7 +45,6 @@ using namespace output;
 %nonassoc NUM
 %nonassoc STRING
 
-
 %%
 /* Rules */
 Program:        Funcs                               {output::printProductionRule(1);};
