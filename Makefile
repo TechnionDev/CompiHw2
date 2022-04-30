@@ -8,3 +8,6 @@ clean:
 	rm -f lex.yy.c
 	rm -f parser.tab.*pp
 	rm -f hw2
+
+zip:
+	zip amiti_gurt_hw2.zip Makefile scanner.lex parser.ypp output.hpp tokens.hpp output.cpp

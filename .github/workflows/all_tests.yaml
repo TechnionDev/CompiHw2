@@ -1,8 +1,8 @@
 name: Run All Tests
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+  TestCompiHw2:
+    runs-on: self-hosted #ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -14,8 +14,8 @@ jobs:
       - name: List files in the repository
         run: ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Install dependencies
-        run: sudo apt update && sudo apt install flex
+      # - name: Install dependencies
+      #   run: sudo apt update && sudo apt install flex bison
       - name: Create Submission zip
         run: make zip
 
@@ -23,19 +23,17 @@ jobs:
         run: |
             mkdir tmp
             cd tmp
-            unzip ../amiti_gurt_hw1.zip
-            flex scanner.lex
-            g++ -std=c++17 -Wall lex.yy.c hw1.cpp -o hw1.out
-            cp -r ../hw1-tests ../run_tests.sh ./
+            unzip ../amiti_gurt_hw2.zip
+            make all
+            cp hw2 ../
 
       - name: Run Tests
         run: |
-            cd tmp
             ./run_tests.sh
 
 
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
-          path: ./amiti_gurt_hw1.zip
+          path: ./amiti_gurt_hw2.zip
           if-no-files-found: error

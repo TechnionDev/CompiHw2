@@ -63,7 +63,7 @@ const std::string rules[] = {
 
 void printProductionRule(const int ruleno) {
     std::cout << ruleno << ": " << rules[ruleno - 1] << "\n";
-    std::cerr << ruleno << ": " << rules[ruleno - 1] << "\n";
+    // std::cerr << ruleno << ": " << rules[ruleno - 1] << "\n";
 }
 
 void printProductionRule(const int ruleno, const char* val) {
