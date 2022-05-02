@@ -7,7 +7,9 @@
 using std::cout;
 using std::endl;
 using std::cin;
-output::printProductionRule;
+
+using output::printProductionRule;
+using output::errorSyn;
 
 %}
 /* Declarations */
@@ -17,9 +19,6 @@ output::printProductionRule;
 %nonassoc B
 %nonassoc BOOL
 %nonassoc AUTO
-%nonassoc AND
-%nonassoc OR
-%nonassoc NOT
 %nonassoc TRUE
 %nonassoc FALSE
 %nonassoc RETURN
@@ -34,12 +33,15 @@ output::printProductionRule;
 %nonassoc RPAREN
 %nonassoc LBRACE
 %nonassoc RBRACE
-%nonassoc ASSIGN
-%nonassoc RELOP
-%nonassoc BINOP
 %nonassoc ID
 %nonassoc NUM
 %nonassoc STRING
+%right NOT
+%right ASSIGN
+%left RELOP
+%left AND
+%left OR
+%left BINOP
 
 
 %%
@@ -111,7 +113,8 @@ int main() {
     return 0;
 }
 
+// todo: figure out how to use errorSyn/errorLex effectively.
 int yyerror(char * s) {
-    cout << "Parse error: " << s << "! Bye now" << endl;
+    errorSyn(yylineno);
     exit(1);
 }

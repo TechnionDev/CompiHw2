@@ -2,6 +2,7 @@
     #include <stdlib.h>
     #include <stdio.h>
     #include "tokens.hpp"
+    #include "output.hpp"
 
     char current_str[1025];
     int current_str_length = 0;
