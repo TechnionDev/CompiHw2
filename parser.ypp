@@ -7,6 +7,7 @@
 using std::cout;
 using std::endl;
 using std::cin;
+output::printProductionRule;
 
 %}
 /* Declarations */
@@ -43,52 +44,65 @@ using std::cin;
 
 %%
 /* Rules */
-Program:        Funcs                               {};
-Funcs:                                              {}
-                | FuncDecl Funcs                    {};
-FuncDecl:       RetType ID LPAREN Formals RPAREN LBRACE Statements RBRACE {};
-RetType:        Type                                {}
-                | VOID                              {};
-Formals:        FormalsList                         {};
-FormalsList:                                        {}
-                | FormalDecl COMMA FormalsList      {};
-FormalDecl:     Type ID                             {};
-Statements:     Statement                           {}
-                | Statements Statement              {};
-Statement:      LBRACE Statements RBRACE            {}
-                | Type ID SC                        {}
-                | Type ID ASSIGN Exp SC             {}
-                | AUTO ID ASSIGN Exp SC             {}
-                | ID ASSIGN Exp SC                  {}
-                | Call SC                           {}
-                | RETURN SC                         {}
-                | RETURN Exp SC                     {}
-                | IF LPAREN Exp RPAREN Statement    {}
-                | IF LPAREN Exp RPAREN Statement ELSE Statement {}
-                | WHILE LPAREN Exp RPAREN Statement {}
-                | BREAK SC                          {}
-                | CONTINUE SC                       {};
-Call:           ID LPAREN ExpList RPAREN            {}
-                | ID LPAREN RPAREN                  {};
-ExpList:        Exp                                 {}
-                | ExpList COMMA ExpList             {};
-Type:           INT                                 {}
-                | BYTE                              {}
-                | BOOL                              {};
-Exp:            LPAREN Exp RPAREN                   {}
-                |Exp BINOP Exp                      {}
-                |ID                                 {}
-                |Call                               {}
-                |NUM                                {}
-                |NUM B                              {}
-                |STRING                             {}
-                |TRUE                               {}
-                |FALSE                              {}
-                |NOT Exp                            {}
-                |Exp AND Exp                        {}
-                |Exp OR Exp                         {}
-                |Exp RELOP Exp                      {}
-                |LPAREN Type RPAREN Exp             {};
+Program:        Funcs                                                       { printProductionRule(1); };
+
+Funcs:                                                                      { printProductionRule(2); }
+                | FuncDecl Funcs                                            { printProductionRule(3); };
+
+FuncDecl:       RetType ID LPAREN Formals RPAREN LBRACE Statements RBRACE   { printProductionRule(4); };
+
+RetType:        Type                                                        { printProductionRule(5); }
+                | VOID                                                      { printProductionRule(6); };
+
+Formals:                                                                    { printProductionRule(7); }
+                | FormalsList                                               { printProductionRule(8); };
+
+FormalsList:    FormalDecl                                                  { printProductionRule(9); }
+                | FormalDecl COMMA FormalsList                              { printProductionRule(10); };
+
+FormalDecl:     Type ID                                                     { printProductionRule(11); };
+
+Statements:     Statement                                                   { printProductionRule(12); }
+                | Statements Statement                                      { printProductionRule(13); };
+
+Statement:      LBRACE Statements RBRACE                                    { printProductionRule(14); }
+                | Type ID SC                                                { printProductionRule(15); }
+                | Type ID ASSIGN Exp SC                                     { printProductionRule(16); }
+                | AUTO ID ASSIGN Exp SC                                     { printProductionRule(17); }
+                | ID ASSIGN Exp SC                                          { printProductionRule(18); }
+                | Call SC                                                   { printProductionRule(19); }
+                | RETURN SC                                                 { printProductionRule(20); }
+                | RETURN Exp SC                                             { printProductionRule(21); }
+                | IF LPAREN Exp RPAREN Statement %prec IF                   { printProductionRule(22); }
+                | IF LPAREN Exp RPAREN Statement ELSE Statement             { printProductionRule(23); }
+                | WHILE LPAREN Exp RPAREN Statement                         { printProductionRule(24); }
+                | BREAK SC                                                  { printProductionRule(25); }
+                | CONTINUE SC                                               { printProductionRule(26); };
+
+Call:           ID LPAREN ExpList RPAREN                                    { printProductionRule(27); }
+                | ID LPAREN RPAREN                                          { printProductionRule(28); };
+
+ExpList:        Exp                                                         { printProductionRule(29); }
+                | ExpList COMMA ExpList                                     { printProductionRule(30); };
+
+Type:           INT                                                         { printProductionRule(31); }
+                | BYTE                                                      { printProductionRule(32); }
+                | BOOL                                                      { printProductionRule(33); };
+
+Exp:            LPAREN Exp RPAREN                                           { printProductionRule(34); }
+                | Exp BINOP Exp                                             { printProductionRule(35); }
+                | ID                                                        { printProductionRule(36); }
+                | Call                                                      { printProductionRule(37); }
+                | NUM                                                       { printProductionRule(38); }
+                | NUM B                                                     { printProductionRule(39); }
+                | STRING                                                    { printProductionRule(40); }
+                | TRUE                                                      { printProductionRule(41); }
+                | FALSE                                                     { printProductionRule(42); }
+                | NOT Exp                                                   { printProductionRule(43); }
+                | Exp AND Exp                                               { printProductionRule(44); }
+                | Exp OR Exp                                                { printProductionRule(45); }
+                | Exp RELOP Exp                                             { printProductionRule(46); }
+                | LPAREN Type RPAREN Exp                                    { printProductionRule(47); };
 %%
 
 /* User routines */
