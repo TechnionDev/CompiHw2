@@ -38,10 +38,10 @@ using output::errorSyn;
 %nonassoc STRING
 %right NOT
 %right ASSIGN
+%left BINOP
 %left RELOP
 %left AND
 %left OR
-%left BINOP
 
 
 %%
