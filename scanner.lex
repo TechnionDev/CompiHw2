@@ -109,7 +109,7 @@ printableascii  ([\x20-\x21\x23-\x5B\x5D-\x7E])
                                     }
 <IN_STRING><<EOF>>                  error_unclosed_string();
 <IN_STRING>.                        error_unprintable_char(*yytext);
-.                                   return -1;
+.                                   { output::errorLex(yylineno); exit(-1); }
 %%
 
 void error_unclosed_string() {
