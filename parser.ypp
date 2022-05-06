@@ -19,9 +19,6 @@ using namespace output;
 %nonassoc B
 %nonassoc BOOL
 %nonassoc AUTO
-%left AND
-%left OR
-%right NOT
 %nonassoc TRUE
 %nonassoc FALSE
 %nonassoc RETURN
@@ -31,32 +28,36 @@ using namespace output;
 %nonassoc BREAK
 %nonassoc CONTINUE
 %nonassoc SC
-%nonassoc COMMA
-%left LPAREN
-%left RPAREN
-%left LBRACE
-%left RBRACE
-%nonassoc ELSE
-%right ASSIGN
-%left RELOP
-%left PLUSOP
-%left MULTOP
 %nonassoc COMMENT
 %nonassoc ID
 %nonassoc NUM
 %nonassoc STRING
+%nonassoc COMMA
+%right ELSE
+%right ASSIGN
+%left OR
+%left AND
+%left EQOP
+%left RELOP
+%left PLUSOP
+%left MULTOP
+%right NOT
+%left LPAREN
+%left RPAREN
+%left LBRACE
+%left RBRACE
 
 %%
 /* Rules */
 Program:        Funcs                               {output::printProductionRule(1);};
-Funcs:          FuncDecl Funcs                      {output::printProductionRule(3);}
-                |                                   {output::printProductionRule(2);};
+Funcs:          /* Epsilon */                       {output::printProductionRule(2);}
+                | FuncDecl Funcs                    {output::printProductionRule(3);};
 FuncDecl:       RetType ID LPAREN Formals RPAREN LBRACE Statements RBRACE {output::printProductionRule(4);}
 ;
 RetType:        Type                                {output::printProductionRule(5);}
                 | VOID                              {output::printProductionRule(6);}
                 ;
-Formals:                                            {output::printProductionRule(7);}
+Formals:        /* Epsilon */                       {output::printProductionRule(7);}
                 | FormalsList                       {output::printProductionRule(8);}
 ;
 FormalsList:    FormalDecl                          {output::printProductionRule(9);}
@@ -75,7 +76,7 @@ Statement:      LBRACE Statements RBRACE            {output::printProductionRule
                 | Call SC                           {output::printProductionRule(19);}
                 | RETURN SC                         {output::printProductionRule(20);}
                 | RETURN Exp SC                     {output::printProductionRule(21);}
-                | IF LPAREN Exp RPAREN Statement %prec IF       {output::printProductionRule(22);}
+                | IF LPAREN Exp RPAREN Statement  %prec IF  {output::printProductionRule(22);}
                 | IF LPAREN Exp RPAREN Statement ELSE Statement {output::printProductionRule(23);}
                 | WHILE LPAREN Exp RPAREN Statement {output::printProductionRule(24);}
                 | BREAK SC                          {output::printProductionRule(25);}
@@ -85,7 +86,7 @@ Call:           ID LPAREN ExpList RPAREN            {output::printProductionRule
                 | ID LPAREN RPAREN                  {output::printProductionRule(28);}
                 ;
 ExpList:        Exp                                 {output::printProductionRule(29);}
-                | ExpList COMMA ExpList             {output::printProductionRule(30);}
+                | Exp COMMA ExpList                 {output::printProductionRule(30);}
                 ;
 Type:           INT                                 {output::printProductionRule(31);}
                 | BYTE                              {output::printProductionRule(32);}
@@ -105,6 +106,7 @@ Exp:            LPAREN Exp RPAREN                   {output::printProductionRule
                 | Exp AND Exp                       {output::printProductionRule(44);}
                 | Exp OR Exp                        {output::printProductionRule(45);}
                 | Exp RELOP Exp                     {output::printProductionRule(46);}
+                | Exp EQOP Exp                      {output::printProductionRule(46);}
                 | LPAREN Type RPAREN Exp            {output::printProductionRule(47);}
                 ;
 %%

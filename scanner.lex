@@ -15,7 +15,6 @@
 %option yylineno
 %option noyywrap
 
-
 digit           ([0-9])
 nozerodigit     ([1-9])
 letter          ([a-zA-Z])
@@ -48,14 +47,15 @@ escapechars     ([\\"nrt0])
 (\{)                                return LBRACE;
 (\})                                return RBRACE;
 (=)                                 return ASSIGN;
-((==)|(!=)|(\<=)|(\>=)|(\<)|(\>))   return RELOP;
+((\<=)|(\>=)|(\<)|(\>))             return RELOP;
+((==)|(!=))                         return EQOP;
 ((\+)|(\-))                         return PLUSOP;
 ((\*)|(\/))                         return MULTOP;
 (\/\/[^\r\n]*[ \r|\n|\r\n]?)        ; // Handle comment
 ({letter}({letter}|{digit})*)       return ID;
 (0{digit}+)                         error_unprintable_char(*yytext);
 (0|{nozerodigit}{digit}*)           return NUM;
-"\""([^\n\r\"\\]|\\{escapechars})+"\""   return STRING;
+(\"([^\n\r\"\\]|\\[rnt"\\])+\")     return STRING;
 
 .                                   return -1;
 %%
