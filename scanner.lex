@@ -20,12 +20,7 @@ digit           ([0-9])
 nozerodigit     ([1-9])
 letter          ([a-zA-Z])
 whitespace      ([\t\n\r ])
-xdd             (\\x[0-9A-Fa-f]{2})
 escapechars     ([\\"nrt0])
-printableascii  ([\x20-\x21\x23-\x5B\x5D-\x7E])
-
-%x IN_STRING
-
 
 %%
 {whitespace}                        ;
@@ -56,59 +51,12 @@ printableascii  ([\x20-\x21\x23-\x5B\x5D-\x7E])
 ((==)|(!=)|(\<=)|(\>=)|(\<)|(\>))   return RELOP;
 ((\+)|(\-))                         return PLUSOP;
 ((\*)|(\/))                         return MULTOP;
-(\/\/[^\r\n]*[ \r|\n|\r\n]?)        return COMMENT;
+(\/\/[^\r\n]*[ \r|\n|\r\n]?)        ; // Handle comment
 ({letter}({letter}|{digit})*)       return ID;
 (0{digit}+)                         error_unprintable_char(*yytext);
 (0|{nozerodigit}{digit}*)           return NUM;
-\"                                  BEGIN(IN_STRING);
-<IN_STRING>[\n\r]                   error_unclosed_string();
-<IN_STRING>\\[^x\\"nrt0]            error_undefined_escape(yytext[1]);
-<IN_STRING>\\{escapechars}          {
-                                        char current_escape = yytext[1];
-                                        switch(current_escape) {
-                                            case 'n':
-                                                current_str[current_str_length++] = '\n';
-                                                break;
-                                            case 'r':
-                                                current_str[current_str_length++] = '\r';
-                                                break;
-                                            case 't':
-                                                current_str[current_str_length++] = '\t';
-                                                break;
-                                            case '0':
-                                                current_str[current_str_length++] = '\0';
-                                                break;
-                                            case '"':
-                                                current_str[current_str_length++] = '"';
-                                                break;
-                                            case '\\':
-                                                current_str[current_str_length++] = '\\';
-                                                break;
-                                        }
-                                    }
-<IN_STRING>{printableascii}         current_str[current_str_length++] = *yytext;
-<IN_STRING>{xdd}                    {
-                                        char *ptr;
-                                        char current_xdd[3] = {yytext[2], yytext[3], '\0'};
-                                        int current_hex;
-                                        current_hex = strtol(current_xdd, &ptr, 16);
-                                        if (current_hex >= 0x00 && current_hex <= 0x7F) {
-                                            current_str[current_str_length++] = (char) current_hex;
-                                        } else {
-                                            error_undefined_hex_escape(current_xdd[0], current_xdd[1]);
-                                        }
-                                    }
-<IN_STRING>(\\x[^"]{2})             error_undefined_hex_escape(yytext[2], yytext[3]);
-<IN_STRING>(\\x[^"])                error_undefined_hex_escape(yytext[2], '\0');
-<IN_STRING>(\\x)                    error_undefined_hex_escape('\0', '\0');
-<IN_STRING>\"                       {
-                                        BEGIN(INITIAL);
-                                        current_str[current_str_length] = '\0';
-                                        current_str_length = 0;
-                                        return STRING;
-                                    }
-<IN_STRING><<EOF>>                  error_unclosed_string();
-<IN_STRING>.                        error_unprintable_char(*yytext);
+"\""([^\n\r\"\\]|\\{escapechars})+"\""   return STRING;
+
 .                                   return -1;
 %%
 
