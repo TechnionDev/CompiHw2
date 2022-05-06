@@ -19,9 +19,9 @@ using namespace output;
 %nonassoc B
 %nonassoc BOOL
 %nonassoc AUTO
-%nonassoc AND
-%nonassoc OR
-%nonassoc NOT
+%left AND
+%left OR
+%right NOT
 %nonassoc TRUE
 %nonassoc FALSE
 %nonassoc RETURN
@@ -37,9 +37,9 @@ using namespace output;
 %nonassoc LBRACE
 %nonassoc RBRACE
 %nonassoc ELSE
-%nonassoc ASSIGN
-%nonassoc RELOP
-%nonassoc BINOP
+%right ASSIGN
+%left RELOP
+%left BINOP
 %nonassoc COMMENT
 %nonassoc ID
 %nonassoc NUM
@@ -74,7 +74,7 @@ Statement:      LBRACE Statements RBRACE            {output::printProductionRule
                 | Call SC                           {output::printProductionRule(19);}
                 | RETURN SC                         {output::printProductionRule(20);}
                 | RETURN Exp SC                     {output::printProductionRule(21);}
-                | IF LPAREN Exp RPAREN Statement    {output::printProductionRule(22);}
+                | IF LPAREN Exp RPAREN Statement %prec IF       {output::printProductionRule(22);}
                 | IF LPAREN Exp RPAREN Statement ELSE Statement {output::printProductionRule(23);}
                 | WHILE LPAREN Exp RPAREN Statement {output::printProductionRule(24);}
                 | BREAK SC                          {output::printProductionRule(25);}
