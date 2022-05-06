@@ -54,8 +54,9 @@ printableascii  ([\x20-\x21\x23-\x5B\x5D-\x7E])
 (\})                                return RBRACE;
 (=)                                 return ASSIGN;
 ((==)|(!=)|(\<=)|(\>=)|(\<)|(\>))   return RELOP;
-((\+)|(\-)|(\*)|(\/))               return BINOP;
-(\/\/[^\n\r]*)                      return COMMENT;
+((\+)|(\-))                         return PLUSOP;
+((\*)|(\/))                         return MULTOP;
+(\/\/[^\r\n]*[ \r|\n|\r\n]?)        return COMMENT;
 ({letter}({letter}|{digit})*)       return ID;
 (0{digit}+)                         error_unprintable_char(*yytext);
 (0|{nozerodigit}{digit}*)           return NUM;

@@ -39,7 +39,8 @@ using namespace output;
 %nonassoc ELSE
 %right ASSIGN
 %left RELOP
-%left BINOP
+%left PLUSOP
+%left MULTOP
 %nonassoc COMMENT
 %nonassoc ID
 %nonassoc NUM
@@ -91,7 +92,8 @@ Type:           INT                                 {output::printProductionRule
                 | BOOL                              {output::printProductionRule(33);}
                 ;
 Exp:            LPAREN Exp RPAREN                   {output::printProductionRule(34);}
-                | Exp BINOP Exp                     {output::printProductionRule(35);}
+                | Exp PLUSOP Exp                    {output::printProductionRule(35);}
+                | Exp MULTOP Exp                    {output::printProductionRule(35);}
                 | ID                                {output::printProductionRule(36);}
                 | Call                              {output::printProductionRule(37);}
                 | NUM                               {output::printProductionRule(38);}
