@@ -32,10 +32,10 @@ using namespace output;
 %nonassoc CONTINUE
 %nonassoc SC
 %nonassoc COMMA
-%nonassoc LPAREN
-%nonassoc RPAREN
-%nonassoc LBRACE
-%nonassoc RBRACE
+%left LPAREN
+%left RPAREN
+%left LBRACE
+%left RBRACE
 %nonassoc ELSE
 %right ASSIGN
 %left RELOP
@@ -107,8 +107,6 @@ Exp:            LPAREN Exp RPAREN                   {output::printProductionRule
                 | Exp RELOP Exp                     {output::printProductionRule(46);}
                 | LPAREN Type RPAREN Exp            {output::printProductionRule(47);}
                 ;
-Comment:        COMMENT                             {output::printProductionRule();}
-;
 %%
 
 /* User routines */
