@@ -1,8 +1,18 @@
-#include <iostream>
 #include "output.hpp"
-#include <sstream>
 
-const std::string output::rules[] = {
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include "parser.tab.hpp"
+#include "tokens.hpp"
+
+using std::cout;
+using std::endl;
+using std::string;
+namespace output {
+
+const std::string rules[] = {
     "Program -> Funcs",
     "Funcs -> epsilon",
     "Funcs -> FuncDecl Funcs",
@@ -19,7 +29,7 @@ const std::string output::rules[] = {
     "Statement -> LBRACE Statements RBRACE",
     "Statement -> Type ID SC",
     "Statement -> Type ID ASSIGN Exp SC",
-	"Statement -> AUTO ID ASSIGN Exp SC",
+    "Statement -> AUTO ID ASSIGN Exp SC",
     "Statement -> ID ASSIGN Exp SC",
     "Statement -> Call SC",
     "Statement -> RETURN SC",
@@ -49,17 +59,27 @@ const std::string output::rules[] = {
     "Exp -> Exp AND Exp",
     "Exp -> Exp OR Exp",
     "Exp -> Exp RELOP Exp",
-    "Exp -> LPAREN Type RPAREN Exp"
-};
+    "Exp -> LPAREN Type RPAREN Exp"};
 
-void output::printProductionRule(const int ruleno) {
-    std::cout << ruleno << ": " << output::rules[ruleno-1] << "\n";
+void printProductionRule(const int ruleno) {
+    std::cout << ruleno << ": " << rules[ruleno - 1] << "\n";
+    // std::cerr << ruleno << ": " << rules[ruleno - 1] << "\n";
 }
 
-void output::errorLex(const int lineno) {
+void printProductionRule(const int ruleno, const char* val) {
+    std::cout << ruleno << ": " << rules[ruleno - 1] << "\n" << val << endl;
+}
+
+void errorLex(const int lineno) {
     std::cout << "line " << lineno << ": lexical error\n";
 }
 
-void output::errorSyn(const int lineno) {
+void errorSyn(const int lineno) {
     std::cout << "line " << lineno << ": syntax error\n";
 }
+
+int yyerror(const char* s) {
+    cout << "line " << yylineno << ": " << s << endl;
+    exit(1);
+}
+}  // namespace output
