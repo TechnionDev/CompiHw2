@@ -10,4 +10,4 @@ clean:
 	rm -f hw2
 
 zip:
-	zip amiti_gurt_hw2.zip scanner.lex parser.ypp output.hpp tokens.hpp output.cpp
+	zip amiti_gurt_hw2.zip Makefile scanner.lex parser.ypp output.hpp tokens.hpp output.cpp
