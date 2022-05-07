@@ -10,8 +10,8 @@
 using std::cout;
 using std::endl;
 using std::string;
-namespace output {
 
+namespace output {
 const std::string rules[] = {
     "Program -> Funcs",
     "Funcs -> epsilon",
