@@ -31,9 +31,14 @@ jobs:
         run: |
             ./run_tests.sh
 
+      - name: Create artifacts dir
+        run: |
+            mkdir -p ./submission
+            cd ./submission
+            unzip ../amiti_gurt_hw2.zip
 
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
-          path: ./amiti_gurt_hw2.zip
+          path: ./submission
           if-no-files-found: error
