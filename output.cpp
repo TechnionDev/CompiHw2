@@ -10,8 +10,8 @@
 using std::cout;
 using std::endl;
 using std::string;
-namespace output {
 
+namespace output {
 const std::string rules[] = {
     "Program -> Funcs",
     "Funcs -> epsilon",
@@ -63,7 +63,6 @@ const std::string rules[] = {
 
 void printProductionRule(const int ruleno) {
     std::cout << ruleno << ": " << rules[ruleno - 1] << "\n";
-    // std::cerr << ruleno << ": " << rules[ruleno - 1] << "\n";
 }
 
 void printProductionRule(const int ruleno, const char* val) {
@@ -72,6 +71,7 @@ void printProductionRule(const int ruleno, const char* val) {
 
 void errorLex(const int lineno) {
     std::cout << "line " << lineno << ": lexical error\n";
+    exit(1);
 }
 
 void errorSyn(const int lineno) {

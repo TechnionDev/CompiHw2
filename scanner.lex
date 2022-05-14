@@ -1,15 +1,8 @@
 %{
     #include <stdlib.h>
     #include <stdio.h>
+    #include "output.hpp"
     #include "parser.tab.hpp"
-
-    char current_str[1025];
-    int current_str_length = 0;
-
-    void error_unclosed_string();
-    void error_undefined_escape(char escape_char);
-    void error_undefined_hex_escape(char non_hex1, char non_hex2);
-    void error_unprintable_char(char bad_char);
 %}
 
 %option yylineno
@@ -53,35 +46,9 @@ escapechars     ([\\"nrt0])
 ((\*)|(\/))                         return MULTOP;
 (\/\/[^\r\n]*[ \r|\n|\r\n]?)        ; // Handle comment
 ({letter}({letter}|{digit})*)       return ID;
-(0{digit}+)                         error_unprintable_char(*yytext);
+(0{digit}+)                         output::errorLex(yylineno);
 (0|{nozerodigit}{digit}*)           return NUM;
 (\"([^\n\r\"\\]|\\[rnt"\\])+\")     return STRING;
-
-.                                   return -1;
+.                                   output::errorLex(yylineno);
 %%
 
-void error_unclosed_string() {
-    printf("Error unclosed string\n");
-    exit(0);
-}
-
-void error_undefined_escape(char escape_char) {
-    printf("Error undefined escape sequence %c\n", escape_char);
-    exit(0);
-}
-
-void error_undefined_hex_escape(char non_hex1, char non_hex2) {
-    if (non_hex1 != '\0' && non_hex2 != '\0') {
-        printf("Error undefined escape sequence x%c%c\n", non_hex1, non_hex2);
-    } else if (non_hex1 != '\0') {
-        printf("Error undefined escape sequence x%c\n", non_hex1);
-    } else {
-        printf("Error undefined escape sequence x\n");
-    }
-    exit(0);
-}
-
-void error_unprintable_char(char bad_char) {
-    printf("Error %c\n", bad_char);
-    exit(0);
-}
